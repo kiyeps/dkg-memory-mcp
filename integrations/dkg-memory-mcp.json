@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "1.0.0",
+  "slug": "dkg-memory-mcp",
+  "name": "DKG Memory MCP Server",
+  "description": "MCP (Model Context Protocol) server exposing DKG V10 three-layer verifiable memory (Working/Shared/Verifiable) as MCP tools, so any MCP-capable client can read, write, share and query DKG memory without custom HTTP wiring.",
+  "license": "Apache-2.0",
+  "repo": "https://github.com/kiyeps/dkg-memory-mcp",
+  "commit": "a1379245a90c1981eed24430f49d4d90bf92d798",
+  "requiresDkgNodeVersion": ">=10.0.0",
+  "category": ["agent-memory", "mcp"],
+  "memoryLayers": ["WM", "SWM"],
+  "v10PrimitivesUsed": ["ContextGraph", "KnowledgeAsset", "SubGraph"],
+  "publicInterfacesUsed": ["http-api", "mcp"],
+  "targetAgents": ["generic-MCP", "Claude Desktop", "Cursor", "OpenClaw", "Hermes", "generic-CLI"],
+  "trustTier": "community",
+  "install": {
+    "kind": "mcp",
+    "command": "dkg-memory-mcp",
+    "supportedClients": ["claude-desktop", "cursor", "claude-code"]
+  },
+  "security": {
+    "writeAuthority": ["wm/write", "swm/share"],
+    "networkEgress": ["http://127.0.0.1:9200"],
+    "notes": "Write authority limited to Working Memory writes and SWM share (seals by default). No Verifiable Memory publish tool is exposed in Round 1 scope; VM promotion requires an explicit human-gated CLI action in a later round. Secret redaction applied before any literal leaves the process."
+  },
+  "maintainer": {
+    "github": "@kiyeps",
+    "name": "kiyeps",
+    "contact": "https://github.com/kiyeps"
+  },
+  "promotionPath": "WM -> SWM (seals by default, publish-ready) -> VM (later round, explicit human CLI gate only)",
+  "fitNotes": "Transport-agnostic MCP tooling layer exposing DKG memory as standard MCP tools. Distinct from the sibling OpenClaw Memory Curator daemon (OpenClaw-specific); this mounts on any MCP client. Round 1 scope: WM + SWM only. No vm/publish tool exposed (Verifiable Memory is a later round and requires an explicit human-gated publish). No UI endorsement/voting tools (disallowed by bounty rules). Secret redaction applied before any literal leaves the process. Smoke-tested live against a DKG V10 node (Base Sepolia testnet): KA create -> WM write -> SPARQL recall verified end-to-end."
+}
