@@ -1,6 +1,6 @@
 {
   "name": "dkg-memory-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server exposing OriginTrail DKG V10 three-layer verifiable memory as tools",
   "type": "module",
   "bin": {
@@ -9,7 +9,13 @@
   "scripts": {
     "test": "node --test test/*.test.js"
   },
-  "keywords": ["mcp", "dkg", "origintrail", "knowledge-graph", "verifiable-memory"],
+  "keywords": [
+    "mcp",
+    "dkg",
+    "origintrail",
+    "knowledge-graph",
+    "verifiable-memory"
+  ],
   "author": "kiyeps",
   "license": "Apache-2.0",
   "dependencies": {
