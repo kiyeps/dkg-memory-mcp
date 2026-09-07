@@ -1,0 +1,20 @@
+$ dkg_status
+{"name":"**IRONCLAW** 🔥  ·  codename **Superagent V7**","version":"10.0.15","networkName":"DKG V10 Base Testnet","nodeRole":"edge"}
+
+$ dkg_write_memory kaName="mcp-demo-1788813007986" (create KA + quads via node WM write API)
+{"name":"mcp-demo-1788813007986","assertionUri":"did:dkg:context-graph:openclaw-curator/_working_memory/0xebdc3d25487e5b28bbd5ed4d5cf59a9c7c46395a/374","alreadyExists":false,"status":"wm-sealed","written":2,"merkleRoot":"0x20395d08c935059fb6d2098ade16f829026a3b199f81a886017ac60197efac12","authorAddress":"0xebDc3D25487E5B28bbd5eD4d5cF59A9c7c46395A"}
+
+$ dkg_query_memory (SPARQL over working memory)
+[
+ {
+  "p": "http://127.0.0.1:7878/title",
+  "o": "\"MCP demo note\""
+ },
+ {
+  "p": "http://127.0.0.1:7878/body",
+  "o": "\"Written via dkg-memory-mcp against live node\""
+ }
+]
+
+$ dkg_share_to_swm
+{"swmShared":true,"promotedCount":2,"sealed":true,"publishReady":true,"shareOperationId":"mtrp2v02-mb1r71"}
