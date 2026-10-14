@@ -5,8 +5,13 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
+import { createRequire } from 'node:module';
 import { DkgClient, buildQuad, buildQuadsFromMap, freshKAName, sparqlLiteral } from './dkg-client.js';
 import { redact, redactQuads } from './redaction.js';
+
+// package.json is the single source of truth for the reported version, so the
+// server metadata can never drift from the published package version.
+const pkg = createRequire(import.meta.url)('../package.json');
 
 // ---------------------------------------------------------------------------
 // Configuration
@@ -17,13 +22,22 @@ const DKG_CONTEXT_GRAPH = process.env.DKG_CONTEXT_GRAPH || 'openclaw-curator';
 const DKG_AGENT_ADDRESS = process.env.DKG_AGENT_ADDRESS || '';
 
 // ---------------------------------------------------------------------------
-// Initialize DKG client
+// Initialize DKG client (lazily)
 // ---------------------------------------------------------------------------
 
-const dkg = new DkgClient({
-  baseUrl: DKG_API_URL,
-  contextGraphId: DKG_CONTEXT_GRAPH,
-});
+// Construction is deferred to first use so that a missing or invalid credential
+// surfaces as a clear per-call tool error instead of terminating the MCP
+// process at import time. The error text never contains the token value.
+let _client = null;
+function getClient() {
+  if (!_client) {
+    _client = new DkgClient({
+      baseUrl: DKG_API_URL,
+      contextGraphId: DKG_CONTEXT_GRAPH,
+    });
+  }
+  return _client;
+}
 
 // ---------------------------------------------------------------------------
 // MCP Server setup
@@ -31,7 +45,7 @@ const dkg = new DkgClient({
 
 const server = new McpServer({
   name: 'dkg-memory-mcp',
-  version: '1.0.0',
+  version: pkg.version,
 });
 
 // ---------------------------------------------------------------------------
@@ -44,6 +58,7 @@ server.tool(
   {},
   async () => {
     try {
+      const dkg = getClient();
       const status = await dkg.getStatus();
       return {
         content: [
@@ -79,6 +94,8 @@ server.tool(
   },
   async ({ kaName, subject, triples }) => {
     try {
+      const dkg = getClient();
+
       // Build quads
       const quads = triples.map(t => buildQuad(subject, t.predicate, t.object));
 
@@ -125,6 +142,8 @@ server.tool(
   },
   async ({ query, view, agentAddress }) => {
     try {
+      const dkg = getClient();
+
       // Redact the query for logging (though SPARQL queries rarely contain secrets)
       const { text: safeQuery } = redact(query);
 
@@ -161,6 +180,8 @@ server.tool(
   {},
   async () => {
     try {
+      const dkg = getClient();
+
       // Query the _meta graph for KA listings
       const sparql = `
         PREFIX schema: <http://schema.org/>
@@ -205,6 +226,7 @@ server.tool(
   },
   async ({ kaName, entities }) => {
     try {
+      const dkg = getClient();
       const result = await dkg.shareToSWM(kaName, { entities: entities || 'all' });
 
       return {

@@ -10,16 +10,38 @@ import { join } from 'node:path';
 // ---------------------------------------------------------------------------
 
 /**
- * Load the DKG auth token from ~/.dkg/auth.token.
- * Line 1 is typically a comment; the token is on line 2.
- * Any lines starting with '#' are stripped.
+ * Resolve the DKG auth token, in this order:
+ *
+ *   1. `DKG_AUTH_TOKEN` — the token the registry installer passes in the
+ *      integration's environment. Honoured first so the declared contract is
+ *      real: an entry that advertises this variable must actually consume it.
+ *   2. `~/.dkg/auth.token` — the node's own token file written by `dkg auth`.
+ *      Line 1 is typically a comment; the token is on line 2. Any line starting
+ *      with '#' is stripped.
+ *
+ * The resolved value is never logged or echoed back to the caller.
  */
 export function loadAuthToken(tokenPath) {
+  const envToken = (process.env.DKG_AUTH_TOKEN || '').trim();
+  if (envToken) return envToken;
   const path = tokenPath || join(homedir(), '.dkg', 'auth.token');
-  const raw = readFileSync(path, 'utf8');
+  let raw;
+  try {
+    raw = readFileSync(path, 'utf8');
+  } catch {
+    throw new Error(
+      `No DKG auth token: DKG_AUTH_TOKEN is unset and the token file is unreadable (${path}). ` +
+      'Set DKG_AUTH_TOKEN or write ~/.dkg/auth.token via `dkg auth`.'
+    );
+  }
   const lines = raw.split('\n').filter(l => !l.trim().startsWith('#'));
   const token = (lines[1] || lines[0] || '').trim();
-  if (!token) throw new Error(`No auth token found in ${path}`);
+  if (!token) {
+    throw new Error(
+      `No DKG auth token: DKG_AUTH_TOKEN is unset and ${path} holds no token. ` +
+      'Set DKG_AUTH_TOKEN or write ~/.dkg/auth.token via `dkg auth`.'
+    );
+  }
   return token;
 }
 

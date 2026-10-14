@@ -1,7 +1,7 @@
 # DKG Memory MCP Server
 
-MCP (Model Context Protocol) server exposing OriginTrail **DKG V10** three-layer
-verifiable memory (Working / Shared / Verifiable) as standard MCP tools. Mount it
+MCP (Model Context Protocol) server exposing OriginTrail **DKG V10** memory
+(Working and Shared Memory in Round 1; no VM tools) as standard MCP tools. Mount it
 in any MCP-capable client — Claude Desktop, Cursor, Claude Code, or a generic
 MCP agent — and read, write, share and query DKG memory without custom HTTP wiring.
 
@@ -79,7 +79,7 @@ peer-ID, wallet, and default agent addressing.
 Apache-2.0
 ## Verified example (2026-08-22)
 
-Real MCP round-trip against the local DKG node (v10.0.13, testnet), driven over
+Real MCP round-trip against the local DKG node (v10.0.19, testnet), driven over
 the stdio MCP protocol:
 
 ```json

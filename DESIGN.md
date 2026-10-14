@@ -1,18 +1,19 @@
 # DKG Memory MCP Server
 
-MCP (Model Context Protocol) server that exposes OriginTrail DKG V10 three-layer
-verifiable memory (WM / SWM / VM) as MCP tools, so ANY MCP-capable client
-(Claude Desktop, Cursor, generic-MCP agents) can read, write, share and query
-DKG memory without custom HTTP wiring.
+MCP (Model Context Protocol) server that exposes OriginTrail DKG V10 memory
+(Working and Shared Memory in Round 1; no VM tools) as MCP tools, so any
+MCP-capable client (Claude Desktop, Cursor, generic-MCP agents) can read, write,
+share and query DKG memory without custom HTTP wiring.
 
 Second submission to the DKG v10 Call for Integrations (Round 1: Working +
-Shared Memory). Substantively distinct from the OpenClaw Memory Curator:
-that one is an OpenClaw-specific daemon + CLI; this one is a transport-agnostic
-MCP tooling layer any client can mount.
+Shared Memory). Overlaps with the first-party @origintrail-official/dkg-mcp
+(broader surface) and with the curator (OpenClaw-specific daemon + CLI): this
+server stays deliberately minimal - five tools, stdio transport, redaction on
+ingress, WM/SWM only.
 
-## Runtime facts (verified 2026-08-22)
+## Runtime facts (live local node, Base Sepolia testnet)
 
-- DKG daemon: http://127.0.0.1:9200 (v10.0.13, testnet Base Sepolia)
+- DKG daemon: http://127.0.0.1:9200 (v10.0.19, testnet Base Sepolia)
 - Auth token: line 2 of ~/.dkg/auth.token (line 1 is a comment — strip `#` lines)
 - Default context graph: openclaw-curator
 - Quads format: JSON array of {subject, predicate, object} — NO per-quad graph field
@@ -30,7 +31,7 @@ MCP tooling layer any client can mount.
 1. `dkg_status` — node + CG health
 2. `dkg_write_memory` — write quads to a named KA in Working Memory
 3. `dkg_query_memory` — SPARQL over a view (working|shared|verifiable)
-4. `dkg_list_assertions` — list KAs + lifecycle state via CG _meta graph
+4. `dkg_list_assertions` — list KAs + lifecycle state (SPARQL over the context graph)
 5. `dkg_share_to_swm` — promote a KA to Shared Working Memory (seals)
 
 NO vm/publish tool in Round 1 scope (VM is later round; explicit-gate only).
