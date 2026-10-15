@@ -3,7 +3,7 @@ Live demo transcript, recorded 2026-10-15 (Asia/Jakarta) against a live local DK
 
 Environment
   node:     IRONCLAW (codename Superagent V7) v10.0.19 - DKG V10 Base Testnet, context graph openclaw-curator
-  revision: 0f8c5f92c0ab7fa6b5013da250aa0aefe65361e7
+  revision: 7378079c2835fdaf5b2d1dc7dd4b62dffb29866a
   Driver:   examples/demo-client.mjs (added by the same commit as this transcript). It speaks MCP over
             stdio to src/server.js and prints every exchange. Long tool results are shortened by the
             client itself and marked "[truncated for the transcript]".
