@@ -1,15 +1,23 @@
 DKG V10 Round-1 submission: dkg-memory-mcp
-Live demo transcript, recorded 2026-10-15 (Asia/Jakarta) against a live local DKG V10 node.
+Recorded walkthrough transcript, generated 2026-10-15 13:11 WIB
+
+This file is the exact terminal output of the recorded run shipped in
+docs/demo.gif (raw recording: docs/demo.cast, asciinema v2 format).
+One run produced all three artefacts: the GIF, the cast and this transcript.
 
 Environment
-  node:     IRONCLAW (codename Superagent V7) v10.0.19 - DKG V10 Base Testnet, context graph openclaw-curator
-  revision: 7378079c2835fdaf5b2d1dc7dd4b62dffb29866a
-  Driver:   examples/demo-client.mjs (added by the same commit as this transcript). It speaks MCP over
-            stdio to src/server.js and prints every exchange. Long tool results are shortened by the
-            client itself and marked "[truncated for the transcript]".
-All output below is verbatim terminal output from this session.
+  node: IRONCLAW v10.0.19 (edge node, DKG V10 Base Testnet / Base Sepolia)
+  node endpoint: http://127.0.0.1:9200 (auth token: ~/.dkg/auth.token, line 2)
+  context graph: openclaw-curator
+  demo input: examples/demo-client.mjs (a fresh KA name is generated on every run)
+  recorded: 2026-10-15 13:11 WIB
 
-$ node examples/demo-client.mjs
+Command output
+
+[?2004h$ cd /home/chovy/dkg-memory-mcp
+[?2004l
+[?2004h$ node examples/demo-client.mjs
+[?2004l
 [dkg-memory-mcp] Server running on stdio
 connected to dkg-memory-mcp v1.0.1 over stdio
 tools exposed (5): dkg_status, dkg_write_memory, dkg_query_memory, dkg_list_assertions, dkg_share_to_swm
@@ -30,33 +38,48 @@ tools exposed (5): dkg_status, dkg_write_memory, dkg_query_memory, dkg_list_asse
   "networkName": "DKG V10 Base Testnet",
   "storeBackend": "oxigraph-server",
   "storeUrl": "http://127.0.0.1:7878/query",
+  "storeQuads": null,
+  "storeQuadsStatus": "not-requested",
+  "storeQuadsAgeMs": null,
+  "storeQuadsRefreshing": false,
+  "uptimeMs": 90891916,
+  "admission": {
+    "inFlight": 0,
+    "max": 64,
+    "rejectedTotal": 0
+  },
+  "eventLoopDelay": {
+    "p50Ms": 0.3,
+    "p99Ms": 1.4,
+    "maxMs": 823.1,
+    "
 ...[truncated for the transcript]
 
-> tools/call dkg_write_memory {"kaName":"mcp-demo-mv92r9s5","subject":"urn:dkg:demo:mcp-demo-mv92r9s5","triples":[{"predicate":"http://127.0.0.1:7878/title","object":"MCP demo note"},{"predicate":"http://127.0.0.1:7878/body","object":"dkg-memory-mcp writes verifiable memory over stdio JSON-RPC."}]}
-Created Knowledge Asset "mcp-demo-mv92r9s5-1792040690175" with 2 quad(s).
+> tools/call dkg_write_memory {"kaName":"mcp-demo-mv94zxoy","subject":"urn:dkg:demo:mcp-demo-mv94zxoy","triples":[{"predicate":"http://127.0.0.1:7878/title","object":"MCP demo note"},{"predicate":"http://127.0.0.1:7878/body","object":"dkg-memory-mcp writes verifiable memory over stdio JSON-RPC."}]}
+Created Knowledge Asset "mcp-demo-mv94zxoy-1792044453477" with 2 quad(s).
 
 Result: {
-  "name": "mcp-demo-mv92r9s5-1792040690175",
-  "assertionUri": "did:dkg:context-graph:openclaw-curator/_working_memory/0xebdc3d25487e5b28bbd5ed4d5cf59a9c7c46395a/8114",
+  "name": "mcp-demo-mv94zxoy-1792044453477",
+  "assertionUri": "did:dkg:context-graph:openclaw-curator/_working_memory/0xebdc3d25487e5b28bbd5ed4d5cf59a9c7c46395a/8207",
   "alreadyExists": false,
   "status": "wm-sealed",
   "written": 2,
-  "merkleRoot": "0x6fa0459e3a35f20eb8d84f2b4c0090e8567a2cec76468945e78c16e02ce32091",
+  "merkleRoot": "0xeba8e5b58ba4abba6f48ac16801b3f33cfdf0aa8e17ffff09ffef19359d0993a",
   "authorAddress": "0xebDc3D25487E5B28bbd5eD4d5cF59A9c7c46395A"
 }
 
-> tools/call dkg_share_to_swm {"kaName":"mcp-demo-mv92r9s5-1792040690175"}
-Shared Knowledge Asset "mcp-demo-mv92r9s5-1792040690175" to Shared Working Memory.
+> tools/call dkg_share_to_swm {"kaName":"mcp-demo-mv94zxoy-1792044453477"}
+Shared Knowledge Asset "mcp-demo-mv94zxoy-1792044453477" to Shared Working Memory.
 
 Result: {
   "swmShared": true,
   "promotedCount": 2,
   "sealed": true,
   "publishReady": true,
-  "shareOperationId": "mv92rb55-80kl4o"
+  "shareOperationId": "mv94zytk-td49a8"
 }
 
-> tools/call dkg_query_memory {"query":"SELECT ?p ?o WHERE { <urn:dkg:demo:mcp-demo-mv92r9s5> ?p ?o } LIMIT 10","view":"shared"}
+> tools/call dkg_query_memory {"query":"SELECT ?p ?o WHERE { <urn:dkg:demo:mcp-demo-mv94zxoy> ?p ?o } LIMIT 10","view":"shared"}
 {
   "result": {
     "type": "bindings",
@@ -72,17 +95,8 @@ Result: {
     ]
   },
   "phases": {
-    "execute": 31,
-    "serverTotal": 32
+    "execute": 8,
+    "serverTotal": 9
   }
 }
-
-Notes
-  - The same run also discarded secrets before write: with a third quad carrying a synthetic token the
-    server logged "[dkg-memory-mcp] Redacted 1 secret(s) from quads" and the stored object read
-    "[REDACTED:api-token]". That variant is omitted here only to keep the transcript free of token-shaped
-    strings; the gate is exercised by the unit tests and by the Hermes bridge transcript.
-  - Raw parameters never appear in the graph: the write path stores the quads given to it, and the
-    Hermes bridge stores only a paramsHash for action parameters.
-  - Reading back after the share returns the triples from the Shared view, which is what the
-    authenticated WM write plus SWM share is meant to prove end to end.
+[?2004h$ 

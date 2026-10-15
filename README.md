@@ -106,3 +106,12 @@ The write sealed to Working Memory (EIP-712 seal, merkle-rooted) and the SPARQL
 query recalled it back, including records written by the sibling
 `dkg-hermes-bridge` — demonstrating cross-tool visibility on the shared DKG
 substrate.
+
+
+## Recorded walkthrough
+
+`docs/demo.gif` is a recorded walkthrough of this integration against a live local
+DKG V10 node (raw recording: `docs/demo.cast`, asciinema v2 format).
+`docs/demo-transcript.txt` is the exact terminal output of that same run.
+
+![recorded walkthrough](docs/demo.gif)
