@@ -52,13 +52,11 @@
   },
   "security": {
     "writeAuthority": [
-      "wm/write",
-      "swm/share"
+      "POST /api/knowledge-assets",
+      "POST /api/knowledge-assets/{name}/swm/share"
     ],
-    "networkEgress": [
-      "http://127.0.0.1:9200"
-    ],
-    "notes": "Write authority limited to Working Memory writes and SWM share (seals by default). No Verifiable Memory publish tool is exposed in Round 1 scope; VM promotion requires an explicit human-gated CLI action in a later round. Secret redaction applied before any literal leaves the process."
+    "networkEgress": [],
+    "notes": "Write authority limited to Working Memory writes and SWM share (seals by default). No Verifiable Memory publish tool is exposed in Round 1 scope; VM promotion requires an explicit human-gated CLI action in a later round. Secret redaction applied before any literal leaves the process. No external network egress: the only host contacted is the DKG node it is installed against (127.0.0.1 by default), which the registry contract does not count as egress."
   },
   "maintainer": {
     "github": "@kiyeps",
