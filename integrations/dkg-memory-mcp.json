@@ -6,7 +6,7 @@
   "description": "MCP (Model Context Protocol) server exposing DKG V10 memory (Working and Shared Memory in Round 1) as MCP tools, so any MCP-capable client can read, write, share and query DKG memory without custom HTTP wiring.",
   "license": "Apache-2.0",
   "repo": "https://github.com/kiyeps/dkg-memory-mcp",
-  "commit": "7378079c2835fdaf5b2d1dc7dd4b62dffb29866a",
+  "commit": "20d2b0b7aadc4a2bbd9bf59901c055e2a8af387f",
   "requiresDkgNodeVersion": ">=10.0.0",
   "category": [
     "agent-memory",
@@ -65,6 +65,6 @@
   },
   "promotionPath": "WM -> SWM (seals by default, publish-ready) -> VM (later round, explicit human CLI gate only)",
   "fitNotes": "Transport-agnostic MCP tooling layer exposing DKG memory as standard MCP tools. Round 1 scope: WM + SWM only. No vm/publish tool exposed (Verifiable Memory is a later round and requires an explicit human-gated publish). No UI endorsement/voting tools (disallowed by bounty rules). Secret redaction applied before any literal leaves the process. Smoke-tested live against a DKG V10 node (Base Sepolia testnet): KA create -> WM write -> SPARQL recall verified end-to-end.",
-  "demo": "https://github.com/kiyeps/dkg-memory-mcp/blob/main/docs/demo-transcript.txt",
+  "demo": "https://github.com/kiyeps/dkg-memory-mcp/blob/main/docs/demo.gif",
   "designBrief": "https://github.com/kiyeps/dkg-memory-mcp/blob/main/docs/DESIGN.md"
 }
