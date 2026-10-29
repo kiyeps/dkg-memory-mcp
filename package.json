@@ -16,7 +16,7 @@
     "knowledge-graph",
     "verifiable-memory"
   ],
-  "author": "kiyeps",
+  "author": "choviy",
   "license": "Apache-2.0",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.1",
