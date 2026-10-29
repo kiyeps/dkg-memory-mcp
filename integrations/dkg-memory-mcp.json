@@ -38,7 +38,7 @@
     "command": "npx",
     "args": [
       "-y",
-      "dkg-memory-mcp@1.0.1"
+      "dkg-memory-mcp@1.0.2"
     ],
     "envRequired": [
       "DKG_API_URL",
